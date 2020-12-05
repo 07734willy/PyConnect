@@ -6,7 +6,14 @@ endfun
 
 au BufWritePost *.py :silent! call SendPing()
 
-let pyconnectpath = "/home/dillon/Desktop/pyconnect"
+let pyconnectpath = expand('<sfile>:p:h')
+echoerr pyconnectpath
 
-silent execute "!source" g:pyconnectpath . "/venv2/bin/activate && gnome-terminal -- python" g:pyconnectpath . "/pyconnect.py"
+if empty($PYCONNECT_TERM)
+	let pyconnectterm = "gnome-terminal --"
+else
+	let pyconnectterm = $PYCONNECT_TERM
+endif
+
+silent execute "!source" g:pyconnectpath . "/venv/bin/activate &&" g:pyconnectterm "python" g:pyconnectpath . "/pyconnect.py"
 redraw!
